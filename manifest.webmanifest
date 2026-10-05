@@ -1,7 +1,7 @@
 {
-  "name": "Fly Track",
-  "short_name": "Fly Track",
-  "description": "Simulación de vuelo y cálculo de distancia geodésica WGS-84.",
+  "name": "Campeón de Ruta",
+  "short_name": "Campeón de Ruta",
+  "description": "Calculadora de Puntos Campeon de Ruta",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
