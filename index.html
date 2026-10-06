@@ -2,11 +2,11 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Puntos - Campeón de Ruta</title>
     <script src="./assets/tailwind.js"></script>
     <link href="./assets/poppins.css" rel="stylesheet">
-    <style>
+        <style>
         body { font-family: 'Poppins', sans-serif; }
     </style>
     <link rel="manifest" href="./manifest.webmanifest">
@@ -94,15 +94,21 @@
     </div>
 
     <script>
-        // Default data structure from provided HTML
-        let participantsData = [
-            { rank: 1, name: "Palomar Siguas", total: 3003.678 },
-            { rank: 2, name: "Saulo", total: 2967.008 },
-            { rank: 3, name: "Palomar Cache", total: 2964.526 },
-            { rank: 4, name: "Palomar San Francisco 2", total: 2924.708 },
-            { rank: 5, name: "Palomar Ruiz 2", total: 2849.460 },
-            { rank: 6, name: "Atoto Loft", total: 2702.173 }
-        ];
+        // Sin datos precargados. Se restaura únicamente el último archivo cargado en este dispositivo.
+        let participantsData = [];
+        let currentTableTitle = "CAMPEÓN DE RUTA";
+
+        try {
+            const savedData = localStorage.getItem("calculadoraPuntos_lastParticipantsData");
+            const savedTitle = localStorage.getItem("calculadoraPuntos_lastTableTitle");
+            if (savedData) {
+                const parsed = JSON.parse(savedData);
+                if (Array.isArray(parsed)) participantsData = parsed;
+            }
+            if (savedTitle) currentTableTitle = savedTitle;
+        } catch (error) {
+            console.warn("No se pudieron restaurar los datos guardados.", error);
+        }
 
         document.addEventListener("DOMContentLoaded", () => {
             initApp();
@@ -110,6 +116,7 @@
 
         function initApp() {
             populateMemberSelect();
+            document.getElementById("tableTitle").textContent = currentTableTitle;
 
             const memberSearch = document.getElementById("memberSearch");
             const memberList = document.getElementById("memberList");
@@ -252,7 +259,9 @@
             // Extract Title if exists
             const titleEl = doc.querySelector('.summary-title-download') || doc.querySelector('h1');
             if (titleEl) {
-                document.getElementById("tableTitle").textContent = titleEl.textContent.trim();
+                currentTableTitle = titleEl.textContent.trim();
+            } else {
+                currentTableTitle = "CAMPEÓN DE RUTA";
             }
 
             // Extract Rows from Table
@@ -282,6 +291,11 @@
 
             if (parsedData.length > 0) {
                 participantsData = parsedData;
+
+                // Guardar el último archivo procesado para restaurarlo al volver a abrir el HTML/PWA.
+                localStorage.setItem("calculadoraPuntos_lastParticipantsData", JSON.stringify(participantsData));
+                localStorage.setItem("calculadoraPuntos_lastTableTitle", currentTableTitle);
+
                 initApp();
                 alert(`¡Tabla cargada con éxito! Se procesaron ${parsedData.length} participantes.`);
             } else {
@@ -289,13 +303,5 @@
             }
         }
     </script>
-<script>
-if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js', {scope:'./', updateViaCache:'none'})
-      .catch(error => console.error('No se pudo activar el modo sin conexión:', error));
-  });
-}
-</script>
 </body>
 </html>
