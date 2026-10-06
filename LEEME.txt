@@ -1,0 +1,12 @@
+CAMPEÓN DE RUTA — PWA PARA GITHUB PAGES
+
+1. Sube TODO el contenido de esta carpeta a la raíz del repositorio, conservando la carpeta assets. No subas únicamente el ZIP.
+2. En GitHub: Settings > Pages > Build and deployment > Deploy from a branch. Selecciona main y / (root), y guarda.
+3. Abre la URL publicada de GitHub Pages; no la vista del archivo dentro del repositorio.
+4. iPhone/iPad: abre la URL en Safari > Compartir > Añadir a pantalla de inicio.
+5. Android: abre en Chrome > menú > Instalar app o Añadir a pantalla de inicio.
+6. Abre una vez con conexión y espera unos segundos para que termine la descarga inicial. Después puede abrirse sin internet.
+
+Se conservan los cálculos, datos iniciales, buscador y clave de LocalStorage originales.
+Los archivos HTML que importas siguen funcionando como en el original: sus tablas no se guardan al cerrar. La selección del participante sí se conserva.
+Para actualizar: sube los archivos modificados y cambia v1 por v2 (etc.) en service-worker.js. Abre con conexión y cierra todas las ventanas de la app antes de volver a abrirla.
